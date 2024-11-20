@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Ingredients</h1>
+<table>
+    <tr>
+        <th>Shop</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Calories</th>
+        <th>Stock</th>
+        <th>Vegan</th>
+        <th>Healthy</th>
+        <th>Stock Up</th>
+        <th>Renew complement /<br>Base Flavor</th>
+    </tr>
+    {% for ingredient in ingredients %}
+    <tr>
+        <td>{{ ingredient.id_ice_cream_shop }}</td>
+        <td>{{ ingredient.name }}</td>
+        <td>{{ ingredient.category }}</td>
+        <td>$ {{ ingredient.price }}</td>
+        <td>{{ ingredient.calories }}</td>
+        <td style="font-weight: bold;">{{ ingredient.stock }}</td>
+        <td>{{ ingredient.vegan }}</td>
+        <td>{{ ingredient.its_healthy() }}</td>
+        <td>
+            <button onclick="stockUpIngredient('{{ ingredient.id_ice_cream_shop }}', '{{ ingredient.id }}')" class="anchor_container">
+                Stock Up
+            </button>
+        </td>
+        <td>
+            {% if ingredient.category == "Complement" %}
+            <button onclick="renewIngredient('{{ ingredient.id_ice_cream_shop }}', '{{ ingredient.id }}')" class="anchor_container">
+                Renew
+            </button>
+            {% else %}
+            {{ ingredient.flavor }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+function stockUpIngredient(shopId, ingredientId) {
+    fetch(`/${shopId}/stock/${ingredientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error stocking up ingredient');
+        });
+}
+
+function renewIngredient(shopId, ingredientId) {
+    fetch(`/${shopId}/renew/${ingredientId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error renewing ingredient');
+        });
+}
+</script>
+{% endblock %}

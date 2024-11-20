@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Stock Up</h1>
+<p>Stock up {{ ingredient.name }} for {{ icecreamshop.name }}</p>
+<p>Previous stock: {{ old_stock }}</p>
+<p>New stock: {{ ingredient.stock }}</p>
+{% endblock %}

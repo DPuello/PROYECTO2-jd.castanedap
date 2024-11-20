@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Shop</title>
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --darker-bg: #0f0f0f;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent: #92deff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: var(--darker-bg);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav_container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-link:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            background: var(--darker-bg);
+        }
+
+        tr:hover {
+            background: var(--glass-border);
+        }
+
+        .btn {
+            background: var(--glass-bg);
+            color: white;
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        .anchor_container {
+            padding: 0.2rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+            background: #fff2;
+            width: fit-content;
+            color: white;
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        .anchor_container:hover {
+            color: var(--accent);
+        }
+        .products_table {
+            background: var(--darker-bg);
+        }
+        .products_table tr:hover {
+            background: #0003;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            background: var(--darker-bg);
+            border-radius: 4px;
+            gap: 1rem;
+            padding: 2rem;
+        }
+        .form_container {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+        }
+        .input_container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 450px;
+            max-width: 100%;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            padding: 1rem;
+        }
+        input, select {
+            flex: 1;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.5rem;
+            color: white;
+            font-size: 1rem;
+        }
+        select option {
+            background: var(--darker-bg);
+        }
+        .checkbox_container {
+            display: flex;
+            align-items: center;
+            max-width: fit-content;
+            min-width: fit-content;
+        }
+        .checkbox_container input {
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav nav_container">
+            <a href="{{ url_for('icecreamshop_bp.index') }}" class="nav-link">Home</a>
+            <div>
+                <a href="{{ url_for('product_bp.index') }}" class="nav-link">All Products</a>
+                <a href="{{ url_for('ingredient_bp.index') }}" class="nav-link">All Ingredients</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

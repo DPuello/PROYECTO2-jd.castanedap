@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h1>Create New Ice Cream Shop</h1>
+    <form action="{{ url_for('icecreamshop_bp.create') }}" method="POST">
+        <div class="form-group">
+            <label for="name">Shop Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <button type="submit" class="button">Create Shop</button>
+    </form>
+</div>
+
+<style>
+.form-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+</style>
+{% endblock %} 

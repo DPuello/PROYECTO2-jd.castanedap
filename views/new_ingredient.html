@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>New Ingredient</h1>
+<form action="{{ url_for('ingredient_bp.create', id=icecreamshop.id) }}" method="POST">
+    <div class="form_container">
+        <div class="input_container">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="input_container">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="Base">Base</option>
+                <option value="Complement">Complement</option>
+            </select>
+        </div>
+
+        <div class="input_container">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+        </div>
+
+        <div class="input_container">
+            <label for="calories">Calories:</label>
+            <input type="number" id="calories" name="calories" required>
+        </div>
+
+        <div class="input_container">
+            <label for="stock">Initial Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+        </div>
+
+        <div id="flavor-field" class="input_container">
+            <label for="flavor">Base Flavor:</label>
+            <input type="text" id="flavor" name="flavor">
+        </div>
+        
+        <div class="input_container checkbox_container">
+            <label for="vegan">Vegan:</label>
+            <input type="checkbox" id="vegan" name="vegan">
+        </div>
+    </div>
+    <button type="submit" class="nav-link">Create Ingredient</button>
+</form>
+
+<script>
+    document.getElementById('category').addEventListener('change', function () {
+        const flavorField = document.getElementById('flavor-field');
+        if (this.value === 'Base') {
+            flavorField.style.display = 'block';
+        } else {
+            flavorField.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

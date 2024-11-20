@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nav">
+    <h1>Products</h1>
+    {% if icecreamshop.can_add_product %}
+    <a href="{{ url_for('product_bp.new', id=icecreamshop.id) }}" class="anchor_container">
+        Create New Product
+    </a>
+    {% else %}
+    <button onclick="showMaxProductsAlert()" class="anchor_container disabled">
+        Create New Product
+    </button>
+    {% endif %}
+</div>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Calories</th>
+        <th>Cost</th>
+        <th>Earnings</th>
+        <th>Sell</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.calc_calories() }}</td>
+        <td>{{ product.calc_cost() }}</td>
+        <td>{{ product.calc_earnings() }}</td>
+        <td><button onclick="sellProduct('{{ icecreamshop.id }}', '{{ product.name }}')" class="anchor_container">
+                Sell
+            </button></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+    function showMaxProductsAlert() {
+        alert('Maximum number of products ({{ icecreamshop.MAX_PRODUCTS }}) reached!');
+    }
+
+    function sellProduct(shopId, productName) {
+        fetch(`/${shopId}/sell/${productName}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload the page to show updated stock
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error selling product');
+            });
+    }
+</script>
+
+<style>
+    .button.disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}

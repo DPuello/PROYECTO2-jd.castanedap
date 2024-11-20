@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Create New Product</h1>
+<form action="{{ url_for('product_bp.create', id=icecreamshop.id) }}" method="POST">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+    </div>
+    
+    <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="Cup">Cup</option>
+            <option value="Milkshake">Milkshake</option>
+        </select>
+    </div>
+    
+    <div>
+        <label>Base Ingredients:</label>
+        {% for ingredient in icecreamshop.ingredients %}
+            {% if ingredient.category == 'Base' %}
+            <div class="checkbox_container" onclick="toggleCheckbox(this)">
+                <input type="checkbox" id="base_{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
+                <label for="base_{{ ingredient.id }}">{{ ingredient.name }}</label>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    <div>
+        <label>Complements:</label>
+        {% for ingredient in icecreamshop.ingredients %}
+            {% if ingredient.category == 'Complement' %}
+            <div class="checkbox_container" onclick="toggleCheckbox(this)">
+                <input type="checkbox" id="complement_{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
+                <label for="complement_{{ ingredient.id }}">{{ ingredient.name }}</label>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    <a href="{{ url_for('ingredient_bp.new', id=icecreamshop.id) }}" class="anchor_container">Create Ingredient</a>
+    <button type="submit" class="anchor_container">Create Product</button>
+</form>
+
+<style>
+form {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+form > div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.checkbox_container {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+}
+</style>
+
+<script>
+    function toggleCheckbox(checkbox) {
+        checkbox.checked = !checkbox.checked;
+    }
+</script>
+{% endblock %} 

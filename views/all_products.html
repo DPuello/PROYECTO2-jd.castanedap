@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Products</h1>
+<table>
+    <tr>
+        <th>Shop</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Calories</th>
+        <th>Cost</th>
+        <th>Earnings</th>
+        <th>Sell</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.id_ice_cream_shop }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.calc_calories() }}</td>
+        <td>{{ product.calc_cost() }}</td>
+        <td>{{ product.calc_earnings() }}</td>
+        <td><button onclick="sellProduct({{ product.id_ice_cream_shop }}, '{{ product.name }}')" class="anchor_container">
+                Sell
+            </button></td>
+    </tr>
+    {% endfor %}
+</table>
+<script>
+    function sellProduct(shopId, productName) {
+        fetch(`/${shopId}/sell/${productName}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload the page to show updated stock
+                    alert(`Product ${productName} sold successfully`);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error selling product');
+            });
+    }
+</script>
+{% endblock %}

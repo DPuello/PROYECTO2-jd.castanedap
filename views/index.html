@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nav">
+    <h1>Ice Cream Shops</h1>
+    <a href="{{ url_for('icecreamshop_bp.new') }}" class="anchor_container">Create New Shop</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Day Sales</th>
+            <th>Day Total Sold</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for icecreamshop in icecreamshops %}
+        <tr>
+            <td>{{ icecreamshop.name }}</td>
+            <td>{{ icecreamshop.day_sales }}</td>
+            <td>${{ icecreamshop.day_total_sold }}</td>
+            <td><a href="{{ url_for('ingredient_bp.ingredients', id=icecreamshop.id) }}"
+                    class="anchor_container">Ingredients</a>
+                <a href="{{ url_for('product_bp.products', id=icecreamshop.id) }}" class="anchor_container">Products</a>
+            </td>
+        </tr>
+        {% if icecreamshop.products %}
+        <tr>
+            <td colspan="4">
+                <table class="products_table">
+                    <tbody>
+                    {% for product in icecreamshop.products %}
+                    <tr>
+                        <td>Product {{ loop.index }}. </td>
+                        <td>{{ product.name }}</td>
+                        <td>${{ product.price }}</td>
+                        <td>
+                            <button onclick="sellProduct('{{ icecreamshop.id }}', '{{ product.name }}')"
+                                class="anchor_container">
+                                Sell
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function sellProduct(shopId, productName) {
+        fetch(`/${shopId}/sell/${productName}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload the page to show updated stock
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error selling product');
+            });
+    }
+</script>
+{% endblock %}
